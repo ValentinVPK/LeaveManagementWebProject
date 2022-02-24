@@ -1,17 +1,12 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using LeaveManagement.Web.Constants;
+using LeaveManagement.Web.Contracts;
+using LeaveManagement.Web.Data;
+using LeaveManagement.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LeaveManagement.Web.Data;
-using LeaveManagement.Web.Models;
-using AutoMapper;
-using LeaveManagement.Web.Contracts;
-using Microsoft.AspNetCore.Authorization;
-using LeaveManagement.Web.Constants;
 
 namespace LeaveManagement.Web.Controllers
 {
@@ -45,7 +40,7 @@ namespace LeaveManagement.Web.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             var model = await leaveRequestRepository.GetLeaveRequestAsync(id);
-            if(model == null)
+            if (model == null)
             {
                 return NotFound();
             }
@@ -111,7 +106,7 @@ namespace LeaveManagement.Web.Controllers
                 {
                     var isValidRequest = await leaveRequestRepository.CreateLeaveRequest(model);
 
-                    if(isValidRequest)
+                    if (isValidRequest)
                     {
                         return RedirectToAction(nameof(MyLeave));
                     }
