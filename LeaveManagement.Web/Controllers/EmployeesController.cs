@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using LeaveManagement.Web.Constants;
-using LeaveManagement.Web.Contracts;
-using LeaveManagement.Web.Data;
-using LeaveManagement.Web.Models;
-using Microsoft.AspNetCore.Http;
+using LeaveManagement.Common.Constants;
+using LeaveManagement.Data;
+using LeaveManagement.Application.Contracts;
+using LeaveManagement.Common.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,7 +37,7 @@ namespace LeaveManagement.Web.Controllers
         // GET: EmployeesController/ViewAllocations/employeeId
         public async Task<ActionResult> ViewAllocations(string id)
         {
-            var model =await leaveAllocationRepository.GetEmployeeAllocations(id);
+            var model = await leaveAllocationRepository.GetEmployeeAllocations(id);
 
             return View(model);
         }
@@ -62,17 +61,17 @@ namespace LeaveManagement.Web.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
-                    if(await leaveAllocationRepository.UpdateEmployeeAllocation(model) == true)
+                    if (await leaveAllocationRepository.UpdateEmployeeAllocation(model) == true)
                     {
                         return RedirectToAction(nameof(ViewAllocations), new { id = model.EmployeeId });
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "An Error Has Occured. Please Try Again Later"); 
+                ModelState.AddModelError(string.Empty, "An Error Has Occured. Please Try Again Later");
             }
 
             model.Employee = mapper.Map<EmployeeListVM>(await userManager.FindByIdAsync(model.EmployeeId));
